@@ -11,22 +11,22 @@ public class ProjectConstant {
     public static final String BASE_PACKAGE = "com.lywq.demo";
 
     // Model所在包
-    public static final String MODEL_PACKAGE = BASE_PACKAGE + ".generatorModular.model";
+    public static final String MODEL_PACKAGE = BASE_PACKAGE + ".modular.generatorModular.model";
 
     // Mapper所在包
-    public static final String MAPPER_PACKAGE = BASE_PACKAGE + ".generatorModular.dao";
+    public static final String MAPPER_PACKAGE = BASE_PACKAGE + ".modular.generatorModular.dao";
 
     // Mapper.xml所在包
     public static final String MAPPERXML_PACKAGE = ".generatorMapper";
 
     // Service所在包
-    public static final String SERVICE_PACKAGE = BASE_PACKAGE + ".generatorModular.service";
+    public static final String SERVICE_PACKAGE = BASE_PACKAGE + ".modular.generatorModular.service";
 
     // ServiceImpl所在包
     public static final String SERVICE_IMPL_PACKAGE = SERVICE_PACKAGE + ".impl";
 
     // Controller所在包
-    public static final String CONTROLLER_PACKAGE = BASE_PACKAGE + ".generatorModular.controller";
+    public static final String CONTROLLER_PACKAGE = BASE_PACKAGE + ".modular.generatorModular.controller";
 
     // Mapper插件基础接口的完全限定名
     public static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".common.base.Mapper";

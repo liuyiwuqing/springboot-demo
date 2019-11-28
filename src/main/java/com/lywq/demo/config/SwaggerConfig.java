@@ -57,7 +57,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .apiInfo(testApiInfo())
                 .groupName("测试接口")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.lywq.demo.generatorModular"))
+                .apis(RequestHandlerSelectors.basePackage("com.lywq.demo.modular.generatorModular"))
                 .paths(PathSelectors.any())
                 .build();
 //                .securityContexts(Lists.newArrayList(securityContext(), securityContext1())).securitySchemes(Lists.<SecurityScheme>newArrayList(apiKey(), apiKey1()));
