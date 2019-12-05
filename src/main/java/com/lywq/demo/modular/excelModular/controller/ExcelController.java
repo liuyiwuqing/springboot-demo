@@ -7,6 +7,7 @@ import com.lywq.demo.common.utils.ExcelUtils;
 import com.lywq.demo.modular.excelModular.model.ExcelData;
 import com.lywq.demo.modular.userModular.model.UserInfo;
 import com.lywq.demo.modular.userModular.service.UserInfoService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,11 +19,12 @@ import java.util.List;
  * @author 王恩典
  * @title: ExcelController
  * @projectName demo
- * @description: TODO
+ * @description: 导出excel表
  * @date 2019/11/8 19:48
  */
 @RestController
 @RequestMapping("excel")
+@Api()
 public class ExcelController {
 
     @Resource

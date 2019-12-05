@@ -5,10 +5,7 @@ import com.lywq.demo.common.modle.RetResponse;
 import com.lywq.demo.common.modle.RetResult;
 import com.lywq.demo.modular.userModular.model.UserInfo;
 import com.lywq.demo.modular.userModular.service.UserInfoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,42 +20,46 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("userInfo")
-@Api(tags = {"用户操作接口"}, description = "userInfoControler")
+@Api(value = "用户操作Controler", tags = {"用户操作接口"}, description = "userInfoControler")
 public class UserInfoController {
 
     @Resource
     private UserInfoService userInfoService;
 
     @GetMapping("/hello")
-    @ApiOperation(value = "你好世界", notes = "controller启动")
-    public String hello(){
+    @ApiOperation(value = "你好世界", tags = {"测试controller"}, notes = "controller启动")
+    public String hello() {
         return "hello SpringBoot";
     }
 
-    @PostMapping("/selectById")
-    @ApiOperation(value = "查询用户", notes = "根据用户ID查询用户")
-    public RetResult<UserInfo> selectById(@RequestParam String id){
+    @GetMapping("/selectById")
+    @ApiOperation(value = "查询用户", tags = {"用户操作接口"}, notes = "根据用户ID查询用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    })
+    public RetResult<UserInfo> selectById(@RequestParam String id) {
         UserInfo userInfo = userInfoService.selectById(id);
         return RetResponse.makeOKRsp(userInfo);
     }
 
     @PostMapping("/testException")
-    @ApiOperation(value = "测试异常", notes = "测试服务异常")
-    public RetResult<UserInfo> testException(@RequestParam String id){
+    @ApiOperation(value = "测试异常", tags = {"测试controller"}, notes = "测试服务异常")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    })
+    public RetResult<UserInfo> testException(@RequestParam String id) {
         List a = null;
         a.size();
         UserInfo userInfo = userInfoService.selectById(id);
         return RetResponse.makeOKRsp(userInfo);
     }
 
-    @ApiOperation(value = "查询用户", notes = "分页查询用户所有")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "当前页码",
-                    dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数",
-                    dataType = "Integer", paramType = "query")
-    })
     @PostMapping("/selectAll")
+    @ApiOperation(value = "查询用户", tags = {"用户操作接口"}, notes = "分页查询用户所有")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "当前页码"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数")
+    })
     public RetResult<PageInfo<UserInfo>> selectAll(@RequestParam(defaultValue = "0") Integer page,
                                                    @RequestParam(defaultValue = "0") Integer size) {
         PageInfo<UserInfo> pageInfo = userInfoService.selectAll(page, size);

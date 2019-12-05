@@ -55,7 +55,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     public Docket testRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(testApiInfo())
-                .groupName("测试接口")
+                .groupName("自动生成的接口")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.lywq.demo.modular.generatorModular"))
                 .paths(PathSelectors.any())
