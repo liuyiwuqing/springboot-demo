@@ -277,7 +277,7 @@ public class OSSClientUtil {
      * @param fileName
      * @throws IOException
      */
-    public static void exportOssFile(OSSClient ossClient, OutputStream os, String fileName) throws IOException {
+    public static void downloadFileForOss(OSSClient ossClient, OutputStream os, String fileName) throws IOException {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSSObject ossObject = ossClient.getObject(bucketName, fileName);
         // 读取文件内容。

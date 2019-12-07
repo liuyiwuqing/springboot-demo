@@ -8,6 +8,7 @@ import com.lywq.demo.modular.excelModular.model.ExcelData;
 import com.lywq.demo.modular.userModular.model.UserInfo;
 import com.lywq.demo.modular.userModular.service.UserInfoService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,14 +25,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("excel")
-@Api()
+@Api(value = "导出excel表", tags = {"excel操作接口"}, description = "ExcelController")
 public class ExcelController {
 
     @Resource
     private UserInfoService userInfoService;
 
-    @PostMapping("/test")
-    public RetResult<Integer> test(){
+    @PostMapping("/exportExcel")
+    @ApiOperation(value = "导出excel", tags = {"excel操作接口"}, notes = "导出excel")
+    public RetResult<Integer> exportExcel(){
         int rowIndex = 0;
         List<UserInfo> list = userInfoService.selectAll();
         ExcelData data = new ExcelData();
@@ -60,8 +62,9 @@ public class ExcelController {
         return RetResponse.makeOKRsp(Integer.valueOf(rowIndex));
     }
 
-    @GetMapping("/test2")
-    public void test2(HttpServletResponse response){
+    @GetMapping("/exportExcel2")
+    @ApiOperation(value = "exportExcel2", tags = {"excel操作接口"}, notes = "exportExcel2")
+    public void exportExcel2(HttpServletResponse response){
         int rowIndex = 0;
         List<UserInfo> list = userInfoService.selectAll();
         ExcelData data = new ExcelData();
