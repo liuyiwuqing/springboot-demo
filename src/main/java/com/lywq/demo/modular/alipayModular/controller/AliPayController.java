@@ -65,21 +65,21 @@ public class AliPayController {
                                 @RequestParam("WIDsubject") String WIDsubject,
                                 @RequestParam("WIDbody") String WIDbody,
                                 HttpServletResponse response) throws IOException {
-        //获得初始化的AlipayClient
+        // 获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.APP_ID, AlipayConfig.APP_PRIVATE_KEY, "json", AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.sign_type);
 
-        //设置请求参数
+        // 设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         alipayRequest.setReturnUrl(AlipayConfig.return_url);
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
 
-        //商户订单号，商户网站订单系统中唯一订单号，必填
+        // 商户订单号，商户网站订单系统中唯一订单号，必填
         String out_trade_no = new String(WIDout_trade_no.getBytes("ISO-8859-1"), "UTF-8");
-        //付款金额，必填
+        // 付款金额，必填
         String total_amount = new String(WIDtotal_amount.getBytes("ISO-8859-1"), "UTF-8");
-        //订单名称，必填
+        // 订单名称，必填
         String subject = new String(WIDsubject.getBytes("ISO-8859-1"), "UTF-8");
-        //商品描述，可空
+        // 商品描述，可空
         String body = new String(WIDbody.getBytes("ISO-8859-1"), "UTF-8");
         // 该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
         String timeout_express = "10m";
@@ -91,9 +91,9 @@ public class AliPayController {
                 + "\"timeout_express\":\"" + timeout_express + "\","
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
 
-        //若想给BizContent增加其他可选请求参数，请求参数可查阅【电脑网站支付的API文档-alipay.trade.page.pay-请求参数】章节
+        // 若想给BizContent增加其他可选请求参数，请求参数可查阅【电脑网站支付的API文档-alipay.trade.page.pay-请求参数】章节
 
-        //请求
+        // 请求
         String form = "";
         try {
             form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
@@ -123,9 +123,9 @@ public class AliPayController {
         log.info(">>>>>>>>支付成功, 进入同步通知接口...");
         boolean verifyResult = AliPayUtil.rsaCheckV1(request);
         if (verifyResult) {
-            //商户订单号
+            // 商户订单号
             String out_trade_no = AliPayUtil.getByte(request.getParameter("out_trade_no"));
-            //支付宝交易号
+            // 支付宝交易号
             String trade_no = AliPayUtil.getByte(request.getParameter("trade_no"));
             log.info("商户订单号：{}，支付宝交易号，{}", out_trade_no, trade_no);
             return RetResponse.makeOKRsp("paySuccess");
@@ -167,36 +167,36 @@ public class AliPayController {
              * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
              */
 
-            //交易状态
+            // 交易状态
             String tradeStatus = AliPayUtil.getByte(request.getParameter("trade_status"));
             // 商户订单号
             String out_trade_no = AliPayUtil.getByte(request.getParameter("out_trade_no"));
-            //支付宝交易号
+            // 支付宝交易号
             String trade_no = AliPayUtil.getByte(request.getParameter("trade_no"));
-            //付款金额
+            // 付款金额
             String total_amount = AliPayUtil.getByte(request.getParameter("total_amount"));
             log.info("交易状态:{},商户订单号:{},支付宝交易号:{},付款金额:{}", tradeStatus, out_trade_no, trade_no, total_amount);
             // TRADE_FINISHED(表示交易已经成功结束，并不能再对该交易做后续操作);
             // TRADE_SUCCESS(表示交易已经成功结束，可以对该交易做后续操作，如：分润、退款等);
             if (tradeStatus.equals("TRADE_FINISHED")) {
-                //判断该笔订单是否在商户网站中已经做过处理
-                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，
+                // 判断该笔订单是否在商户网站中已经做过处理
+                // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，
                 // 并判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），并执行商户的业务程序
-                //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
-                //如果有做过处理，不执行商户的业务程序
+                // 请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
+                // 如果有做过处理，不执行商户的业务程序
 
-                //注意：
-                //如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-                //如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
+                // 注意：
+                // 如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+                // 如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
             } else if (tradeStatus.equals("TRADE_SUCCESS")) {
-                //判断该笔订单是否在商户网站中已经做过处理
-                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，
+                // 判断该笔订单是否在商户网站中已经做过处理
+                // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，
                 // 并判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），并执行商户的业务程序
-                //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
-                //如果有做过处理，不执行商户的业务程序
+                // 请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
+                // 如果有做过处理，不执行商户的业务程序
 
-                //注意：
-                //如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
+                // 注意：
+                // 如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
 
             }
             return "success";
@@ -218,10 +218,10 @@ public class AliPayController {
         AlipayClient alipayClient = AliPayUtil.alipayClient;
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
         model.setOutTradeNo(orderId);
-        //设置请求参数
+        // 设置请求参数
         AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest();
         alipayRequest.setBizModel(model);
-        //请求
+        // 请求
         String result = alipayClient.execute(alipayRequest).getBody();
         return result;
     }
