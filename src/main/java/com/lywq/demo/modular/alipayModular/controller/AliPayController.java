@@ -60,7 +60,7 @@ public class AliPayController {
             @ApiImplicitParam(name = "WIDsubject", value = "订单名称", required = true),
             @ApiImplicitParam(name = "WIDbody", value = "商品描述", required = false)
     })
-    public String payController(@RequestParam("WIDout_trade_no") String WIDout_trade_no,
+    public void payController(@RequestParam("WIDout_trade_no") String WIDout_trade_no,
                                 @RequestParam("WIDtotal_amount") String WIDtotal_amount,
                                 @RequestParam("WIDsubject") String WIDsubject,
                                 @RequestParam("WIDbody") String WIDbody,
@@ -105,7 +105,6 @@ public class AliPayController {
         response.getWriter().flush();
         response.getWriter().close();
 
-        return form;
     }
 
     /**
@@ -122,12 +121,14 @@ public class AliPayController {
     public RetResult<String> return_url(HttpServletResponse response, HttpServletRequest request) throws IOException, AlipayApiException {
         log.info(">>>>>>>>支付成功, 进入同步通知接口...");
         boolean verifyResult = AliPayUtil.rsaCheckV1(request);
+        System.out.println(verifyResult);
         if (verifyResult) {
             // 商户订单号
             String out_trade_no = AliPayUtil.getByte(request.getParameter("out_trade_no"));
             // 支付宝交易号
             String trade_no = AliPayUtil.getByte(request.getParameter("trade_no"));
             log.info("商户订单号：{}，支付宝交易号，{}", out_trade_no, trade_no);
+
             return RetResponse.makeOKRsp("paySuccess");
         } else {
             return RetResponse.makeErrRsp("payFail");
@@ -145,7 +146,7 @@ public class AliPayController {
      */
     @RequestMapping("/notify_url")
     @ApiOperation(value = "同步回调", tags = {"alipay操作接口"}, notes = "同步回调")
-    public String notify_url(HttpServletResponse response, HttpServletRequest request) throws IOException, AlipayApiException {
+    public RetResult<String> notify_url(HttpServletResponse response, HttpServletRequest request) throws IOException, AlipayApiException {
         log.info(">>>>>>>>支付成功, 进入异步通知接口...");
         // 一定要验签，防止黑客篡改参数
         Map<String, String[]> parameterMap = request.getParameterMap();
@@ -197,33 +198,33 @@ public class AliPayController {
 
                 // 注意：
                 // 如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
-
             }
-            return "success";
+            return RetResponse.makeOKRsp("success");
         }
-        return "fail";
+        return RetResponse.makeOKRsp("fail");
     }
 
     /**
      * 查看支付流水
      *
-     * @param orderId
+     * @param orderNo
      * @return
      * @throws IOException
      * @throws AlipayApiException
      */
     @RequestMapping(value = "/queryPay")
     @ApiOperation(value = "查看支付流水", tags = {"alipay操作接口"}, notes = "查看支付流水")
-    public String queryPay(String orderId) throws IOException, AlipayApiException {
+    public RetResult<String> queryPay(String orderNo) throws IOException, AlipayApiException {
         AlipayClient alipayClient = AliPayUtil.alipayClient;
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-        model.setOutTradeNo(orderId);
+        // 商户订单号
+        model.setOutTradeNo(orderNo);
         // 设置请求参数
         AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest();
         alipayRequest.setBizModel(model);
-        // 请求
+        // 返回结果
         String result = alipayClient.execute(alipayRequest).getBody();
-        return result;
+        return RetResponse.makeOKRsp(result);
     }
 
     /**
@@ -234,7 +235,7 @@ public class AliPayController {
      */
     @RequestMapping("/refund")
     @ApiOperation(value = "退款", tags = {"alipay操作接口"}, notes = "退款")
-    public String refund(String orderNo) throws AlipayApiException {
+    public RetResult<String> refund(String orderNo) throws AlipayApiException {
         AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
         AlipayTradeRefundModel model = new AlipayTradeRefundModel();
         // 商户订单号
@@ -249,7 +250,9 @@ public class AliPayController {
         log.info("退款请求号：{}", outOrderId);
         alipayRequest.setBizModel(model);
         AlipayTradeRefundResponse alipayResponse = AliPayUtil.alipayClient.execute(alipayRequest);
-        return alipayResponse.getBody();
+        // 返回结果
+        String result = alipayResponse.getBody();
+        return RetResponse.makeOKRsp(result);
     }
 
     /**
@@ -262,17 +265,19 @@ public class AliPayController {
      */
     @RequestMapping("/refundQuery")
     @ApiOperation(value = "退款查询", tags = {"alipay操作接口"}, notes = "退款查询")
-    public String refundQuery(String orderNo, String refundOrderNo) throws AlipayApiException {
+    public RetResult<String> refundQuery(String orderNo, String refundOrderNo) throws AlipayApiException {
         AlipayTradeFastpayRefundQueryRequest alipayRequest = new AlipayTradeFastpayRefundQueryRequest();
 
         AlipayTradeFastpayRefundQueryModel model = new AlipayTradeFastpayRefundQueryModel();
+        // 商户订单号
         model.setOutTradeNo(orderNo);
+        // 退款请求号
         model.setOutRequestNo(refundOrderNo);
         alipayRequest.setBizModel(model);
         AlipayTradeFastpayRefundQueryResponse alipayResponse = AliPayUtil.alipayClient.execute(alipayRequest);
-        System.out.println(alipayResponse.getBody());
-
-        return alipayResponse.getBody();
+        // 返回结果
+        String result = alipayResponse.getBody();
+        return RetResponse.makeOKRsp(result);
     }
 
     /**
@@ -284,14 +289,16 @@ public class AliPayController {
      */
     @RequestMapping("/close")
     @ApiOperation(value = "关闭交易", tags = {"alipay操作接口"}, notes = "关闭交易")
-    public String close(String orderNo) throws AlipayApiException {
+    public RetResult<String> close(String orderNo) throws AlipayApiException {
         AlipayTradeCloseRequest alipayRequest = new AlipayTradeCloseRequest();
         AlipayTradeCloseModel model = new AlipayTradeCloseModel();
+        // 商户订单号
         model.setOutTradeNo(orderNo);
         alipayRequest.setBizModel(model);
         AlipayTradeCloseResponse alipayResponse = AliPayUtil.alipayClient.execute(alipayRequest);
-        System.out.println(alipayResponse.getBody());
-        return alipayResponse.getBody();
+        // 返回结果
+        String result = alipayResponse.getBody();
+        return RetResponse.makeOKRsp(result);
     }
 
 }
