@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: XssFilterConfig
  * @projectName demo
  * @description: xss过滤拦截器配置文件
@@ -25,7 +25,7 @@ public class XssFilterConfig {
     public FilterRegistrationBean xssFilterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new XssFilter());
-        filterRegistrationBean.setOrder(Integer.MAX_VALUE-1);
+        filterRegistrationBean.setOrder(Integer.MAX_VALUE - 1);
         filterRegistrationBean.setEnabled(true);
         filterRegistrationBean.addUrlPatterns("/*");
         Map<String, String> initParameters = new HashMap();

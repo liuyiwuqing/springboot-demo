@@ -43,12 +43,11 @@
             <version>1.4.7.RELEASE</version>
         </dependency>
 
-        <!--热部署-->
+        <!-- spring热部署 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>org.springframework</groupId>
+            <artifactId>springloaded</artifactId>
+            <version>1.2.6.RELEASE</version>
         </dependency>
 
         <!--fastjson依赖-->

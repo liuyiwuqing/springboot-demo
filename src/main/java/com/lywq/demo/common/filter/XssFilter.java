@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: XssFilter
  * @projectName demo
  * @description: 拦截防止xss注入 通过Jsoup过滤请求参数内的特定字符

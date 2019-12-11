@@ -1,10 +1,14 @@
 package com.lywq.demo.config;
 
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.lywq.demo.common.utils.AliPayUtil;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: AlipayConfig
  * @projectName demo
  * @description: alipay配置
@@ -36,31 +40,13 @@ public class AlipayConfig {
     // 支付宝网关，这是沙箱的网关
     public static String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 
-    // 支付宝网关
+    // 日志地址
     public static String log_path = "C:\\";
+
+    // 实例化客户端
+    public static AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.APP_ID, AlipayConfig.APP_PRIVATE_KEY, "json", AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.sign_type);
 
 
 //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-    /**
-     * 写日志，方便测试（看网站需求，也可以改成把记录存入数据库）
-     * @param sWord 要写入日志里的文本内容
-     */
-    public static void logResult(String sWord) {
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(log_path + "alipay_log_" + System.currentTimeMillis()+".txt");
-            writer.write(sWord);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }

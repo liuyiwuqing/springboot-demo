@@ -17,7 +17,7 @@ import java.io.IOException;
 
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: UploadOSSController
  * @projectName demo
  * @description: 上传文件到Oss
@@ -49,11 +49,11 @@ public class UploadOSSController {
             @ApiImplicitParam(name = "bucketName", value = "存储空间名称", required = true),
             @ApiImplicitParam(name = "folder", value = "文件夹名称", required = true)
     })
-    public RetResult<String> mkdir(String bucketName, String folder){
+    public RetResult<String> mkdir(String bucketName, String folder) {
         // 获取实例
         OSSClient ossClient = OSSClientUtil.getOSSClient();
         // 创建文件夹
-        String fileDir = OSSClientUtil.createFolder(ossClient,bucketName,folder);
+        String fileDir = OSSClientUtil.createFolder(ossClient, bucketName, folder);
         return RetResponse.makeOKRsp(fileDir);
     }
 
@@ -62,11 +62,11 @@ public class UploadOSSController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileName", value = "文件名称", required = true)
     })
-    public RetResult<String> deleteFile(String fileName){
+    public RetResult<String> deleteFile(String fileName) {
         // 获取实例
         OSSClient ossClient = OSSClientUtil.getOSSClient();
         // 删除文件
-        OSSClientUtil.delete(ossClient,fileName);
+        OSSClientUtil.delete(ossClient, fileName);
         return RetResponse.makeOKRsp("删除成功");
     }
 
@@ -89,12 +89,12 @@ public class UploadOSSController {
         // 获取实例
         OSSClient ossClient = OSSClientUtil.getOSSClient();
         // 截取下载名
-        String attachmentName = StringUtil.subLastTag(fileName,"/");
+        String attachmentName = StringUtil.subLastTag(fileName, "/");
         // 通知浏览器以附件形式下载
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String(attachmentName.getBytes(), "ISO-8859-1"));
         // 下载文件
-        OSSClientUtil.downloadFileForOss(ossClient,response.getOutputStream(),fileName);
+        OSSClientUtil.downloadFileForOss(ossClient, response.getOutputStream(), fileName);
         return RetResponse.makeOKRsp("下载成功");
     }
 

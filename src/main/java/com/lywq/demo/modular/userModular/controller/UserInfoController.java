@@ -5,14 +5,17 @@ import com.lywq.demo.common.modle.RetResponse;
 import com.lywq.demo.common.modle.RetResult;
 import com.lywq.demo.modular.userModular.model.UserInfo;
 import com.lywq.demo.modular.userModular.service.UserInfoService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: UserInfoController
  * @projectName demo
  * @description: TODO

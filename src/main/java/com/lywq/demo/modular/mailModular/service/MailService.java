@@ -5,7 +5,7 @@ import com.lywq.demo.modular.mailModular.model.Mail;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: MailService
  * @projectName demo
  * @description: 邮件业务类
@@ -15,12 +15,14 @@ public interface MailService {
 
     /**
      * 发送简单邮件
+     *
      * @param mail
      */
     void sendSimpleMail(Mail mail);
 
     /**
      * 发送带附件的邮件
+     *
      * @param mail
      * @param request
      */
@@ -28,6 +30,7 @@ public interface MailService {
 
     /**
      * 发送静态资源  一张照片
+     *
      * @param mail
      * @throws Exception
      */
@@ -35,6 +38,7 @@ public interface MailService {
 
     /**
      * 发送模板邮件
+     *
      * @param mail
      */
     void sendTemplateMail(Mail mail);

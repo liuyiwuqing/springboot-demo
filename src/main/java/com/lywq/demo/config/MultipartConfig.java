@@ -8,7 +8,7 @@ import org.springframework.util.unit.DataSize;
 import javax.servlet.MultipartConfigElement;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: MultipartConfig
  * @projectName demo
  * @description: 文件上传配置
@@ -18,8 +18,8 @@ import javax.servlet.MultipartConfigElement;
 public class MultipartConfig {
 
     @Bean
-    public MultipartConfigElement multipartConfigElement(){
-        MultipartConfigFactory factory=new MultipartConfigFactory();
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(DataSize.parse("100MB"));
         factory.setMaxRequestSize(DataSize.parse("100MB"));
         return factory.createMultipartConfig();

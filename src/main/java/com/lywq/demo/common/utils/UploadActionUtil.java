@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: UploadActionUtil
  * @projectName demo
  * @description: 文件上传工具类
@@ -29,9 +29,6 @@ public class UploadActionUtil {
             while (iterator.hasNext()) {
                 // 取得上传文件
                 MultipartFile file = multiRequest.getFile(iterator.next());
-                if (file != null){
-
-                }
                 if (file != null) {
                     // 取得当前上传文件的文件名称
                     String myFileName = file.getOriginalFilename();
@@ -42,28 +39,28 @@ public class UploadActionUtil {
                         String tempName = UUID.randomUUID().toString() + fileTyps;
 
                         // 判断是否为图片
-                        String imageTags[] = {".jpg", ".png", ".gif", ".jpeg", ".bmp", ".tif", ".image"};
+                        String[] imageTags = {".jpg", ".png", ".gif", ".jpeg", ".bmp", ".tif", ".image"};
                         Boolean isImage = false;
-                        for (String imageTag:imageTags) {
-                            if (fileTyps.equals(imageTag)){
+                        for (String imageTag : imageTags) {
+                            if (fileTyps.equals(imageTag)) {
                                 isImage = true;
                             }
                         }
 
                         // 判断是否为视频
-                        String videoTags[] = {".flv", ".mp4", ".f4v", ".m3u8", ".webm", ".ogg"};
+                        String[] videoTags = {".flv", ".mp4", ".f4v", ".m3u8", ".webm", ".ogg"};
                         Boolean isVideo = false;
-                        for (String videoTag:videoTags) {
-                            if (fileTyps.equals(videoTag)){
+                        for (String videoTag : videoTags) {
+                            if (fileTyps.equals(videoTag)) {
                                 isVideo = true;
                             }
                         }
 
                         // 判断是否为压缩包
-                        String packageTags[] = {".rar", ".zip", ".gz", ".7z"};
+                        String[] packageTags = {".rar", ".zip", ".gz", ".7z"};
                         Boolean isPackage = false;
-                        for (String packageTag:packageTags) {
-                            if (fileTyps.equals(packageTag)){
+                        for (String packageTag : packageTags) {
+                            if (fileTyps.equals(packageTag)) {
                                 isPackage = true;
                             }
                         }
@@ -71,49 +68,49 @@ public class UploadActionUtil {
                         // 创建文件夹
                         String folderPath = null;
                         // 创建图片文件夹
-                        if (isImage){
+                        if (isImage) {
                             folderPath = ProjectConstant.SAVEFILEPATH + File.separator + "images";
                             File imagesFileFolder = new File(folderPath);
                             if (!imagesFileFolder.exists() && !imagesFileFolder.isDirectory()) {
                                 imagesFileFolder.mkdir();
                             }
-                            File fileFolder = new File(folderPath+File.separator +folderName());
+                            File fileFolder = new File(folderPath + File.separator + folderName());
                             if (!fileFolder.exists() && !fileFolder.isDirectory()) {
                                 fileFolder.mkdir();
                             }
                         }
                         // 创建视频文件夹
-                        if (isVideo){
+                        if (isVideo) {
                             folderPath = ProjectConstant.SAVEFILEPATH + File.separator + "videos";
                             File videosFileFolder = new File(folderPath);
                             if (!videosFileFolder.exists() && !videosFileFolder.isDirectory()) {
                                 videosFileFolder.mkdir();
                             }
-                            File fileFolder = new File(folderPath+File.separator +folderName());
+                            File fileFolder = new File(folderPath + File.separator + folderName());
                             if (!fileFolder.exists() && !fileFolder.isDirectory()) {
                                 fileFolder.mkdir();
                             }
                         }
                         // 创建压缩包文件夹
-                        if (isPackage){
+                        if (isPackage) {
                             folderPath = ProjectConstant.SAVEFILEPATH + File.separator + "packages";
                             File videosFileFolder = new File(folderPath);
                             if (!videosFileFolder.exists() && !videosFileFolder.isDirectory()) {
                                 videosFileFolder.mkdir();
                             }
-                            File fileFolder = new File(folderPath+File.separator +folderName());
+                            File fileFolder = new File(folderPath + File.separator + folderName());
                             if (!fileFolder.exists() && !fileFolder.isDirectory()) {
                                 fileFolder.mkdir();
                             }
                         }
                         // 创建其他文件夹
-                        else if (!isImage && !isVideo && !isPackage){
+                        else if (!isImage && !isVideo && !isPackage) {
                             folderPath = ProjectConstant.SAVEFILEPATH + File.separator + "others";
                             File othersFileFolder = new File(folderPath);
                             if (!othersFileFolder.exists() && !othersFileFolder.isDirectory()) {
                                 othersFileFolder.mkdir();
                             }
-                            File fileFolder = new File(folderPath+File.separator +folderName());
+                            File fileFolder = new File(folderPath + File.separator + folderName());
                             if (!fileFolder.exists() && !fileFolder.isDirectory()) {
                                 fileFolder.mkdir();
                             }
@@ -123,16 +120,15 @@ public class UploadActionUtil {
                         file.transferTo(uploadFile);
 
                         // 返回文件访问地址
-                        if (isImage){
+                        if (isImage) {
                             myFileName = "images" + File.separator + folderName() + File.separator + tempName;
                         }
-                        if (isVideo){
+                        if (isVideo) {
                             myFileName = "videos" + File.separator + folderName() + File.separator + tempName;
                         }
-                        if (isPackage){
+                        if (isPackage) {
                             myFileName = "packages" + File.separator + folderName() + File.separator + tempName;
-                        }
-                        else if (!isImage && !isVideo && !isPackage){
+                        } else if (!isImage && !isVideo && !isPackage) {
                             myFileName = "others" + File.separator + folderName() + File.separator + tempName;
                         }
 
@@ -149,7 +145,7 @@ public class UploadActionUtil {
      *
      * @return
      */
-    public static String getCurrentFilderName()  throws Exception{
+    public static String getCurrentFilderName() throws Exception {
         Calendar now = Calendar.getInstance();
         return now.get(Calendar.YEAR) + "" + (now.get(Calendar.MONTH) + 1) + "" + now.get(Calendar.DAY_OF_MONTH);
     }
@@ -173,7 +169,7 @@ public class UploadActionUtil {
      * @param fileName
      * @return
      */
-    public static String extFile(String fileName)  throws Exception{
+    public static String extFile(String fileName) throws Exception {
         return fileName.substring(fileName.lastIndexOf("."));
     }
 

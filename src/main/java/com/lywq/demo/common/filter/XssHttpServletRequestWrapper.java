@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: XssHttpServletRequestWrapper
  * @projectName demo
  * @description: 重写请求参数处理函数

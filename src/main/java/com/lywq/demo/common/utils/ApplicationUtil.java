@@ -6,13 +6,13 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * @author 王恩典
- * @title: ApplicationUtils
+ * @author lywq WED
+ * @title: ApplicationUtil
  * @projectName demo
  * @description: 程序工具类，提供便捷方法
  * @date 2019/11/6 13:27
  */
-public class ApplicationUtils {
+public class ApplicationUtil {
 
     /**
      * 产生一个36个字符的UUID
@@ -64,28 +64,30 @@ public class ApplicationUtils {
 
     /**
      * 获取多少位随机数
+     *
      * @param num
      * @return
      */
-    public static String getNumStringRandom(int num){
+    public static String getNumStringRandom(int num) {
         StringBuilder str = new StringBuilder();
         Random random = new Random();
         //随机生成数字，并添加到字符串
-        for(int i = 0;i<num;i++){
+        for (int i = 0; i < num; i++) {
             str.append(random.nextInt(10));
         }
-        return  str.toString();
+        return str.toString();
     }
 
     /**
      * 获取区间内的随机数
+     *
      * @param min
      * @param max
      * @return
      */
-    public static int getRandomBetween(int min, int max){
+    public static int getRandomBetween(int min, int max) {
         Random random = new Random();
-        int s = random.nextInt(max)%(max-min+1) + min;
+        int s = random.nextInt(max) % (max - min + 1) + min;
         return s;
     }
 }

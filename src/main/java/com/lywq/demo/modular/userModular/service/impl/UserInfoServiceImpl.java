@@ -21,15 +21,15 @@ import java.util.List;
  * @date 2019/11/5 19:51
  */
 @Service
-public class UserInfoServiceImpl extends ServiceImpl<UserInfo> implements UserInfoService{
+public class UserInfoServiceImpl extends ServiceImpl<UserInfo> implements UserInfoService {
 
     @Resource
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public UserInfo selectById(String id){
+    public UserInfo selectById(String id) {
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
-        if(userInfo == null){
+        if (userInfo == null) {
             throw new ServiceException("暂无该用户");
         }
         return userInfo;

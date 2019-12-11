@@ -1,7 +1,7 @@
 package com.lywq.demo.common.constant;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: MailConstant
  * @projectName demo
  * @description: 邮件常量类

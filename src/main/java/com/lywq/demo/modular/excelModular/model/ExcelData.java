@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: ExcelData
  * @projectName demo
  * @description: Excel实体类

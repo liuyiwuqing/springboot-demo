@@ -1,17 +1,18 @@
-//package com.lywq.demo.common.utils;
-//
+package com.lywq.demo.common.utils;
+
+import com.google.common.io.ByteSource;
 //import org.apache.shiro.crypto.hash.SimpleHash;
 //import org.apache.shiro.util.ByteSource;
-//
-///**
-// * @author 王恩典
-// * @title: test
-// * @projectName demo
-// * @description: TODO
-// * @date 2019/11/6 18:35
-// */
-//public class test {
-//    public static void main(String []ages ){
+
+/**
+ * @author lywq WED
+ * @title: test
+ * @projectName demo
+ * @description: TODO
+ * @date 2019/11/6 18:35
+ */
+public class test {
+    public static void main(String []ages ){
 //        //加密方式
 //        String hashAlgorithmName = "md5";
 //        //原密码
@@ -23,5 +24,5 @@
 //        ByteSource credentialsSalt = ByteSource.Util.bytes(hash);
 //        String password = new SimpleHash(hashAlgorithmName, credentials, credentialsSalt, hashIterations).toHex();
 //        System.out.println(password);
-//    }
-//}
+    }
+}

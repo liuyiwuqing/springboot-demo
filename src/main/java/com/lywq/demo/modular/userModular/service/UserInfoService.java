@@ -5,7 +5,7 @@ import com.lywq.demo.common.base.Service;
 import com.lywq.demo.modular.userModular.model.UserInfo;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: UserInfoService
  * @projectName demo
  * @description: TODO
@@ -13,6 +13,7 @@ import com.lywq.demo.modular.userModular.model.UserInfo;
  */
 public interface UserInfoService extends Service<UserInfo> {
 
+    @Override
     UserInfo selectById(String id);
 
     PageInfo<UserInfo> selectAll(Integer page, Integer size);

@@ -1,9 +1,11 @@
 package com.lywq.demo.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.Bucket;
+import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.PutObjectResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,11 +17,9 @@ import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: OSSClientUtil
  * @projectName demo
  * @description: OSS上传工具类
@@ -207,7 +207,7 @@ public class OSSClientUtil {
             String fileName = file.getOriginalFilename();
             // 文件类型
             String type = getContentType(fileName);
-            if (type.equalsIgnoreCase("image")) {
+            if ("image".equalsIgnoreCase(type)) {
                 fileFolder = "images/";
                 // 文件大小
                 fileSize = file.getSize();
@@ -215,7 +215,7 @@ public class OSSClientUtil {
                     return "上传文件大于2M";
                 }
             }
-            if (type.equalsIgnoreCase("video")) {
+            if ("video".equalsIgnoreCase(type)) {
                 fileFolder = "videos/";
                 // 文件大小
                 fileSize = file.getSize();
@@ -223,7 +223,7 @@ public class OSSClientUtil {
                     return "上传文件大于50M";
                 }
             }
-            if (type.equalsIgnoreCase("text")) {
+            if ("text".equalsIgnoreCase(type)) {
                 fileFolder = "texts/";
                 // 文件大小
                 fileSize = file.getSize();
@@ -231,7 +231,7 @@ public class OSSClientUtil {
                     return "上传文件大于5M";
                 }
             }
-            if (type.equalsIgnoreCase("package")) {
+            if ("package".equalsIgnoreCase(type)) {
                 fileFolder = "packages/";
                 // 文件大小
                 fileSize = file.getSize();
@@ -272,6 +272,7 @@ public class OSSClientUtil {
 
     /**
      * 下载文件
+     *
      * @param ossClient
      * @param os
      * @param fileName

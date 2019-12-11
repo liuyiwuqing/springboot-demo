@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: RedisController
  * @projectName demo
  * @description: redis操作接口

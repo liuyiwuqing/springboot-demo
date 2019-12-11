@@ -14,13 +14,14 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.lywq.demo.common.modle.RetResponse;
 import com.lywq.demo.common.modle.RetResult;
 import com.lywq.demo.common.utils.AliPayUtil;
-import com.lywq.demo.config.AlipayConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +29,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+import com.lywq.demo.config.AlipayConfig;
+
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: PayController
  * @projectName demo
  * @description: alipay控制层
@@ -44,10 +47,10 @@ public class AliPayController {
     /**
      * 调用支付
      *
-     * @param WIDout_trade_no
-     * @param WIDtotal_amount
-     * @param WIDsubject
-     * @param WIDbody
+     * @param widoutTradeNo
+     * @param widtotalAmount
+     * @param widsubject
+     * @param widbody
      * @param response
      * @return
      * @throws IOException
@@ -55,16 +58,16 @@ public class AliPayController {
     @RequestMapping("/pay")
     @ApiOperation(value = "支付", tags = {"alipay操作接口"}, notes = "支付")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "WIDout_trade_no", value = "商户订单号", required = true),
-            @ApiImplicitParam(name = "WIDtotal_amount", value = "付款金额", required = true),
-            @ApiImplicitParam(name = "WIDsubject", value = "订单名称", required = true),
-            @ApiImplicitParam(name = "WIDbody", value = "商品描述", required = false)
+            @ApiImplicitParam(name = "widoutTradeNo", value = "商户订单号", required = true),
+            @ApiImplicitParam(name = "widtotalAmount", value = "付款金额", required = true),
+            @ApiImplicitParam(name = "widsubject", value = "订单名称", required = true),
+            @ApiImplicitParam(name = "widbody", value = "商品描述", required = false)
     })
-    public void payController(@RequestParam("WIDout_trade_no") String WIDout_trade_no,
-                                @RequestParam("WIDtotal_amount") String WIDtotal_amount,
-                                @RequestParam("WIDsubject") String WIDsubject,
-                                @RequestParam("WIDbody") String WIDbody,
-                                HttpServletResponse response) throws IOException {
+    public void payController(@RequestParam("widoutTradeNo") String widoutTradeNo,
+                              @RequestParam("widtotalAmount") String widtotalAmount,
+                              @RequestParam("widsubject") String widsubject,
+                              @RequestParam("widbody") String widbody,
+                              HttpServletResponse response) throws IOException {
         // 获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.APP_ID, AlipayConfig.APP_PRIVATE_KEY, "json", AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.sign_type);
 
@@ -74,13 +77,13 @@ public class AliPayController {
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
 
         // 商户订单号，商户网站订单系统中唯一订单号，必填
-        String out_trade_no = new String(WIDout_trade_no.getBytes("ISO-8859-1"), "UTF-8");
+        String out_trade_no = new String(widoutTradeNo.getBytes("ISO-8859-1"), "UTF-8");
         // 付款金额，必填
-        String total_amount = new String(WIDtotal_amount.getBytes("ISO-8859-1"), "UTF-8");
+        String total_amount = new String(widtotalAmount.getBytes("ISO-8859-1"), "UTF-8");
         // 订单名称，必填
-        String subject = new String(WIDsubject.getBytes("ISO-8859-1"), "UTF-8");
+        String subject = new String(widsubject.getBytes("ISO-8859-1"), "UTF-8");
         // 商品描述，可空
-        String body = new String(WIDbody.getBytes("ISO-8859-1"), "UTF-8");
+        String body = new String(widbody.getBytes("ISO-8859-1"), "UTF-8");
         // 该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
         String timeout_express = "10m";
 
@@ -104,7 +107,7 @@ public class AliPayController {
         response.getWriter().write(form);//直接将完整的表单html输出到页面
         response.getWriter().flush();
         response.getWriter().close();
-
+        log.info(">>>>>>>>创建订单支付二维码成功...");
     }
 
     /**
@@ -121,7 +124,6 @@ public class AliPayController {
     public RetResult<String> return_url(HttpServletResponse response, HttpServletRequest request) throws IOException, AlipayApiException {
         log.info(">>>>>>>>支付成功, 进入同步通知接口...");
         boolean verifyResult = AliPayUtil.rsaCheckV1(request);
-        System.out.println(verifyResult);
         if (verifyResult) {
             // 商户订单号
             String out_trade_no = AliPayUtil.getByte(request.getParameter("out_trade_no"));
@@ -129,9 +131,9 @@ public class AliPayController {
             String trade_no = AliPayUtil.getByte(request.getParameter("trade_no"));
             log.info("商户订单号：{}，支付宝交易号，{}", out_trade_no, trade_no);
 
-            return RetResponse.makeOKRsp("paySuccess");
+            return RetResponse.makeOKRsp("支付成功");
         } else {
-            return RetResponse.makeErrRsp("payFail");
+            return RetResponse.makeErrRsp("支付失败");
         }
     }
 
@@ -145,7 +147,7 @@ public class AliPayController {
      * @throws AlipayApiException
      */
     @RequestMapping("/notify_url")
-    @ApiOperation(value = "同步回调", tags = {"alipay操作接口"}, notes = "同步回调")
+    @ApiOperation(value = "异步回调", tags = {"alipay操作接口"}, notes = "异步回调")
     public RetResult<String> notify_url(HttpServletResponse response, HttpServletRequest request) throws IOException, AlipayApiException {
         log.info(">>>>>>>>支付成功, 进入异步通知接口...");
         // 一定要验签，防止黑客篡改参数
@@ -179,7 +181,7 @@ public class AliPayController {
             log.info("交易状态:{},商户订单号:{},支付宝交易号:{},付款金额:{}", tradeStatus, out_trade_no, trade_no, total_amount);
             // TRADE_FINISHED(表示交易已经成功结束，并不能再对该交易做后续操作);
             // TRADE_SUCCESS(表示交易已经成功结束，可以对该交易做后续操作，如：分润、退款等);
-            if (tradeStatus.equals("TRADE_FINISHED")) {
+            if ("TRADE_FINISHED".equals(tradeStatus)) {
                 // 判断该笔订单是否在商户网站中已经做过处理
                 // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，
                 // 并判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），并执行商户的业务程序
@@ -189,7 +191,7 @@ public class AliPayController {
                 // 注意：
                 // 如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
                 // 如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
-            } else if (tradeStatus.equals("TRADE_SUCCESS")) {
+            } else if ("TRADE_SUCCESS".equals(tradeStatus)) {
                 // 判断该笔订单是否在商户网站中已经做过处理
                 // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，
                 // 并判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），并执行商户的业务程序
@@ -199,9 +201,9 @@ public class AliPayController {
                 // 注意：
                 // 如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
             }
-            return RetResponse.makeOKRsp("success");
+            return RetResponse.makeOKRsp("支付成功");
         }
-        return RetResponse.makeOKRsp("fail");
+        return RetResponse.makeOKRsp("支付失败");
     }
 
     /**
@@ -215,7 +217,7 @@ public class AliPayController {
     @RequestMapping(value = "/queryPay")
     @ApiOperation(value = "查看支付流水", tags = {"alipay操作接口"}, notes = "查看支付流水")
     public RetResult<String> queryPay(String orderNo) throws IOException, AlipayApiException {
-        AlipayClient alipayClient = AliPayUtil.alipayClient;
+        AlipayClient alipayClient = AlipayConfig.alipayClient;
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
         // 商户订单号
         model.setOutTradeNo(orderNo);
@@ -224,6 +226,7 @@ public class AliPayController {
         alipayRequest.setBizModel(model);
         // 返回结果
         String result = alipayClient.execute(alipayRequest).getBody();
+        log.info("商户订单号：{}，订单详情，{}", orderNo, result);
         return RetResponse.makeOKRsp(result);
     }
 
@@ -249,9 +252,10 @@ public class AliPayController {
         model.setOutRequestNo(outOrderId);
         log.info("退款请求号：{}", outOrderId);
         alipayRequest.setBizModel(model);
-        AlipayTradeRefundResponse alipayResponse = AliPayUtil.alipayClient.execute(alipayRequest);
+        AlipayTradeRefundResponse alipayResponse = AlipayConfig.alipayClient.execute(alipayRequest);
         // 返回结果
         String result = alipayResponse.getBody();
+        log.info("商户订单号：{}，退款详情，{}", orderNo, result);
         return RetResponse.makeOKRsp(result);
     }
 
@@ -274,9 +278,10 @@ public class AliPayController {
         // 退款请求号
         model.setOutRequestNo(refundOrderNo);
         alipayRequest.setBizModel(model);
-        AlipayTradeFastpayRefundQueryResponse alipayResponse = AliPayUtil.alipayClient.execute(alipayRequest);
+        AlipayTradeFastpayRefundQueryResponse alipayResponse = AlipayConfig.alipayClient.execute(alipayRequest);
         // 返回结果
         String result = alipayResponse.getBody();
+        log.info("商户订单号：{}，退款请求号，{}，退款查询结果，{}", orderNo, refundOrderNo, result);
         return RetResponse.makeOKRsp(result);
     }
 
@@ -295,9 +300,10 @@ public class AliPayController {
         // 商户订单号
         model.setOutTradeNo(orderNo);
         alipayRequest.setBizModel(model);
-        AlipayTradeCloseResponse alipayResponse = AliPayUtil.alipayClient.execute(alipayRequest);
+        AlipayTradeCloseResponse alipayResponse = AlipayConfig.alipayClient.execute(alipayRequest);
         // 返回结果
         String result = alipayResponse.getBody();
+        log.info("商户订单号：{}，关闭交易，{}", orderNo, result);
         return RetResponse.makeOKRsp(result);
     }
 

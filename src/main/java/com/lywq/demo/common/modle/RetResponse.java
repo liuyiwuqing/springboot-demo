@@ -11,6 +11,8 @@ public class RetResponse {
 
     private final static String SUCCESS = "success";
 
+    private final static String FAIL = "fail";
+
     public static <T> RetResult<T> makeOKRsp() {
         return new RetResult<T>().setCode(RetCode.SUCCESS).setMsg(SUCCESS);
     }
@@ -19,8 +21,8 @@ public class RetResponse {
         return new RetResult<T>().setCode(RetCode.SUCCESS).setMsg(SUCCESS).setData(data);
     }
 
-    public static <T> RetResult<T> makeErrRsp(String message) {
-        return new RetResult<T>().setCode(RetCode.FAIL).setMsg(SUCCESS);
+    public static <T> RetResult<T> makeErrRsp(T data) {
+        return new RetResult<T>().setCode(RetCode.FAIL).setMsg(FAIL).setData(data);
     }
 
     public static <T> RetResult<T> makeRsp(int code, String msg) {

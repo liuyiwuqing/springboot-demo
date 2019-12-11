@@ -1,7 +1,6 @@
 package com.lywq.demo.common.base;
 
 import com.alibaba.fastjson.JSON;
-import com.lywq.demo.common.base.RedisService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -15,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: RedisServiceImpl
  * @projectName demo
  * @description: reids接口实现类
@@ -41,12 +40,12 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public String get(final String key){
+    public String get(final String key) {
         String result = redisTemplate.execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
-                byte[] value =  connection.get(serializer.serialize(key));
+                byte[] value = connection.get(serializer.serialize(key));
                 return serializer.deserialize(value);
             }
         });
@@ -54,12 +53,12 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long del(final String key){
+    public long del(final String key) {
         long result = redisTemplate.execute(new RedisCallback<Long>() {
             @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
-                long value =  connection.del(serializer.serialize(key));
+                long value = connection.del(serializer.serialize(key));
                 return value;
             }
         });
@@ -74,13 +73,13 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public <T> boolean setList(String key, List<T> list) {
         String value = JSON.toJSONString(list);
-        return set(key,value);
+        return set(key, value);
     }
 
     @Override
-    public <T> List<T> getList(String key,Class<T> clz) {
+    public <T> List<T> getList(String key, Class<T> clz) {
         String json = get(key);
-        if(json!=null){
+        if (json != null) {
             List<T> list = JSON.parseArray(json, clz);
             return list;
         }
@@ -121,7 +120,7 @@ public class RedisServiceImpl implements RedisService {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
-                byte[] res =  connection.lPop(serializer.serialize(key));
+                byte[] res = connection.lPop(serializer.serialize(key));
                 return serializer.deserialize(res);
             }
         });

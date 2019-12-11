@@ -6,7 +6,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: UploadModel
  * @projectName demo
  * @description: 文件上传实体类

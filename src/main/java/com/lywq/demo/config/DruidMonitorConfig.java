@@ -1,11 +1,11 @@
 package com.lywq.demo.config;
 
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.alibaba.druid.support.http.StatViewServlet;
-import com.alibaba.druid.support.http.WebStatFilter;
 
 /**
  * @description: Druid监控配置
@@ -17,6 +17,7 @@ public class DruidMonitorConfig {
 
     /**
      * 注册ServletRegistrationBean
+     *
      * @return
      */
     @Bean
@@ -37,6 +38,7 @@ public class DruidMonitorConfig {
 
     /**
      * 注册FilterRegistrationBean
+     *
      * @return
      */
     @Bean
@@ -45,7 +47,7 @@ public class DruidMonitorConfig {
         //添加过滤规则.
         bean.addUrlPatterns("/*");
         //添加不需要忽略的格式信息.
-        bean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+        bean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return bean;
     }
 

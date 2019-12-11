@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 
 <form action="/pay" method="post">
     订单号：<input type="text" name="WIDout_trade_no" required><br/>

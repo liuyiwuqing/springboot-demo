@@ -1,8 +1,6 @@
 package com.lywq.demo.common.modle;
 
 import com.lywq.demo.common.constant.RetCode;
-import java.io.Serializable;
-import com.alibaba.fastjson.JSON;
 
 /**
  * @description: 返回对象实体

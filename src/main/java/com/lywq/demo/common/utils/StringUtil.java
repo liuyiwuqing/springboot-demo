@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: StringUtil
  * @projectName demo
  * @description: 字符串操作工具
@@ -23,8 +23,9 @@ public class StringUtil {
     public static String sub(String str, int start, int end) {
         String result = null;
 
-        if (str == null || str.equals(""))
+        if (str == null || "".equals(str)) {
             return "";
+        }
 
         int len = str.length();
         start = start < 0 ? len + start : start - 1;
@@ -63,10 +64,10 @@ public class StringUtil {
      */
     public static String trimEnd(String str, String tag) throws Exception {
         String result = str;
-        if (str == null || str.equals("")) {
+        if (str == null || "".equals(str)) {
             return str;
         }
-        if (tag == null || tag.equals("")) {
+        if (tag == null || "".equals(tag)) {
             throw new Exception("参数tag 不能为null或‘’ ");
         }
 
@@ -87,8 +88,9 @@ public class StringUtil {
     public static String subLastTag(String str, String tag) {
         String result = null;
 
-        if (str == null || str.equals(""))
+        if (str == null || "".equals(str)) {
             return "";
+        }
 
         result = str.substring(str.lastIndexOf(tag) + 1);
 

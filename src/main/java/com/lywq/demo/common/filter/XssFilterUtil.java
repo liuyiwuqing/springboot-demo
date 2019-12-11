@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: XssFilterUtil
  * @description: xss非法标签过滤
  * @date 2019/11/6 10:15
@@ -18,18 +18,21 @@ public class XssFilterUtil {
      * strike,strong,sub,sup,u,ul,img
      * 以及a标签的href,img标签的src,align,alt,height,width,title属性
      */
-    private static final Whitelist whitelist = Whitelist.basicWithImages();
+    private static final Whitelist WHITELIST = Whitelist.basicWithImages();
 
-    /** 配置过滤化参数,不对代码进行格式化 */
-    private static final Document.OutputSettings outputSettings = new Document.OutputSettings().prettyPrint(false);
+    /**
+     * 配置过滤化参数,不对代码进行格式化
+     */
+    private static final Document.OutputSettings OUTPUTSETTINGS = new Document.OutputSettings().prettyPrint(false);
+
     static {
         // 富文本编辑时一些样式是使用style来进行实现的
         // 比如红色字体 style="color:red;"
         // 所以需要给所有标签添加style属性
-        whitelist.addAttributes(":all", "style");
+        WHITELIST.addAttributes(":all", "style");
     }
 
     public static String clean(String content) {
-        return Jsoup.clean(content, "", whitelist, outputSettings);
+        return Jsoup.clean(content, "", WHITELIST, OUTPUTSETTINGS);
     }
 }

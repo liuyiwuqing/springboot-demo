@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: UserInfoMapper
  * @projectName demo
  * @description: TODO
@@ -19,5 +19,6 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
 
     UserInfo selectById(@Param("id") String id);
 
+    @Override
     List<UserInfo> selectAll();
 }

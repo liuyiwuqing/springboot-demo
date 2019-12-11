@@ -1,20 +1,20 @@
 package com.lywq.demo.common.utils;
 
 import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.lywq.demo.config.AlipayConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: AliPayUtil
  * @projectName demo
  * @description: alipay工具类
@@ -22,8 +22,12 @@ import java.util.Map;
  */
 @Slf4j
 public class AliPayUtil {
-    public static AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.APP_ID, AlipayConfig.APP_PRIVATE_KEY, "json", AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.sign_type);
-    /*** 转码*/
+    /**
+     * 转码
+     *
+     * @param param
+     * @return
+     */
     public static String getByte(String param) {
         try {
             return new String(param.getBytes("ISO-8859-1"), "UTF-8");
@@ -33,7 +37,12 @@ public class AliPayUtil {
         }
     }
 
-    /*** 校验签名*/
+    /**
+     * 校验签名
+     *
+     * @param request
+     * @return
+     */
     public static boolean rsaCheckV1(HttpServletRequest request) {
         // https://docs.open.alipay.com/54/106370
         // 获取支付宝POST过来反馈信息
@@ -57,4 +66,28 @@ public class AliPayUtil {
             return false;
         }
     }
+
+    /**
+     * 写日志，方便测试（看网站需求，也可以改成把记录存入数据库）
+     *
+     * @param sWord 要写入日志里的文本内容
+     */
+    public static void logResult(String sWord) {
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(AlipayConfig.log_path + "alipay_log_" + System.currentTimeMillis() + ".txt");
+            writer.write(sWord);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

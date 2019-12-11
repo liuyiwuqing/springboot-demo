@@ -1,8 +1,8 @@
 package com.lywq.demo.common.utils;
 
 import com.lywq.demo.modular.excelModular.model.ExcelData;
-import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -19,16 +19,17 @@ import java.util.List;
 
 
 /**
- * @author 王恩典
- * @title: ExcelUtils
+ * @author lywq WED
+ * @title: ExcelUtil
  * @projectName demo
  * @description: excel导出工具类
  * @date 2019/11/8 19:45
  */
-public class ExcelUtils {
+public class ExcelUtil {
 
     /**
      * 使用浏览器选择路径下载
+     *
      * @param response
      * @param fileName
      * @param data

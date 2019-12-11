@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: MailServiceImpl
  * @projectName demo
  * @description: 邮箱业务实现类
@@ -51,7 +51,7 @@ public class MailServiceImpl implements MailService {
      * 发送简单邮件
      */
     @Override
-    public void sendSimpleMail(Mail mail){
+    public void sendSimpleMail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setTo(mail.getTo());
@@ -67,8 +67,8 @@ public class MailServiceImpl implements MailService {
      * @throws Exception
      */
     @Override
-    public void sendAttachmentsMail(Mail mail,HttpServletRequest request){
-        try{
+    public void sendAttachmentsMail(Mail mail, HttpServletRequest request) {
+        try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             helper.setFrom(from);
@@ -76,14 +76,14 @@ public class MailServiceImpl implements MailService {
             helper.setSubject(mail.getSubject());
             helper.setText(mail.getText());
             List<String> list = UploadActionUtil.uploadFile(request);
-            for (int i = 1,length = list.size();i<=length;i++) {
-                String fileName = list.get(i-1);
+            for (int i = 1, length = list.size(); i <= length; i++) {
+                String fileName = list.get(i - 1);
                 String fileTyps = fileName.substring(fileName.lastIndexOf("."));
                 FileSystemResource file = new FileSystemResource(new File(fileName));
-                helper.addAttachment("附件-"+i+fileTyps, file);
+                helper.addAttachment("附件-" + i + fileTyps, file);
             }
             mailSender.send(mimeMessage);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -91,12 +91,13 @@ public class MailServiceImpl implements MailService {
 
     /**
      * 发送静态资源  一张照片
+     *
      * @param mail
      * @throws Exception
      */
     @Override
-    public void sendInlineMail(Mail mail){
-        try{
+    public void sendInlineMail(Mail mail) {
+        try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             helper.setFrom(from);
@@ -108,7 +109,7 @@ public class MailServiceImpl implements MailService {
             // addInline函数中资源名称chuchen需要与正文中cid:chuchen对应起来
             helper.addInline("chuchen", file);
             mailSender.send(mimeMessage);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("发送邮件发生异常");
         }
 
@@ -116,10 +117,11 @@ public class MailServiceImpl implements MailService {
 
     /**
      * 发送模板邮件
+     *
      * @param mail
      */
     @Override
-    public void sendTemplateMail(Mail mail){
+    public void sendTemplateMail(Mail mail) {
         MimeMessage message = null;
         try {
             message = mailSender.createMimeMessage();
@@ -129,7 +131,7 @@ public class MailServiceImpl implements MailService {
             helper.setSubject(mail.getSubject());
             //读取 html 模板
             freemarker.template.Configuration cfg = getConfiguration();
-            Template template = cfg.getTemplate(mail.getTemplateName()+".ftl");
+            Template template = cfg.getTemplate(mail.getTemplateName() + ".ftl");
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getTemplateModel());
             helper.setText(html, true);
         } catch (Exception e) {

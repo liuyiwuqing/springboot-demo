@@ -3,7 +3,7 @@ package com.lywq.demo.modular.mailModular.model;
 import java.util.Map;
 
 /**
- * @author 王恩典
+ * @author lywq WED
  * @title: Mail
  * @projectName demo
  * @description: TODO
@@ -34,7 +34,7 @@ public class Mail {
     /**
      * 模板需要的数据   发送模板邮件必填
      */
-    private Map<String,String> templateModel;
+    private Map<String, String> templateModel;
 
     /**
      * 选用哪个模板 发送模板邮件必填

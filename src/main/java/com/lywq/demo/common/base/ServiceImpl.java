@@ -67,7 +67,7 @@ public abstract class ServiceImpl<T> implements Service<T> {
     }
 
     @Override
-    public List<T> selectListBy(String fieldName, Object value)  {
+    public List<T> selectListBy(String fieldName, Object value) {
         try {
             T model = modelClass.newInstance();
             Field field = modelClass.getDeclaredField(fieldName);
@@ -95,12 +95,12 @@ public abstract class ServiceImpl<T> implements Service<T> {
     }
 
     @Override
-    public List<T> select(T record){
+    public List<T> select(T record) {
         return mapper.select(record);
     }
 
     @Override
-    public T selectOne(T recoed){
+    public T selectOne(T recoed) {
         return mapper.selectOne(recoed);
     }
 }
