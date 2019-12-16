@@ -81,9 +81,9 @@ public class AliPayController {
         // 付款金额，必填
         String total_amount = new String(widtotalAmount.getBytes("ISO-8859-1"), "UTF-8");
         // 订单名称，必填
-        String subject = new String(widsubject.getBytes("ISO-8859-1"), "UTF-8");
+        String subject = widsubject;
         // 商品描述，可空
-        String body = new String(widbody.getBytes("ISO-8859-1"), "UTF-8");
+        String body = widbody;
         // 该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
         String timeout_express = "10m";
 
@@ -105,7 +105,11 @@ public class AliPayController {
         }
         response.setContentType("text/html;charset=" + AlipayConfig.CHARSET);
         response.getWriter().write(form);//直接将完整的表单html输出到页面
-        response.getWriter().flush();
+        response
+
+
+
+                .getWriter().flush();
         response.getWriter().close();
         log.info(">>>>>>>>创建订单支付二维码成功...");
     }
@@ -293,6 +297,7 @@ public class AliPayController {
      * @throws AlipayApiException
      */
     @RequestMapping("/close")
+
     @ApiOperation(value = "关闭交易", tags = {"alipay操作接口"}, notes = "关闭交易")
     public RetResult<String> close(String orderNo) throws AlipayApiException {
         AlipayTradeCloseRequest alipayRequest = new AlipayTradeCloseRequest();

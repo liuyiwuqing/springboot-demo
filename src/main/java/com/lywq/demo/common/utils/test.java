@@ -8,7 +8,7 @@ import com.google.common.io.ByteSource;
  * @author lywq WED
  * @title: test
  * @projectName demo
- * @description: TODO
+ * @description: 测试类
  * @date 2019/11/6 18:35
  */
 public class test {
@@ -24,5 +24,6 @@ public class test {
 //        ByteSource credentialsSalt = ByteSource.Util.bytes(hash);
 //        String password = new SimpleHash(hashAlgorithmName, credentials, credentialsSalt, hashIterations).toHex();
 //        System.out.println(password);
+
     }
 }
