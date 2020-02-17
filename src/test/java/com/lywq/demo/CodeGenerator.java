@@ -3,7 +3,6 @@ package com.lywq.demo;
 import com.google.common.base.CaseFormat;
 import com.lywq.demo.common.constant.ProjectConstant;
 import freemarker.template.TemplateExceptionHandler;
-import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.internal.DefaultShellCallback;
@@ -48,7 +47,7 @@ public class CodeGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        genCode("system_log");
+        genCode("siteinfo");
     }
 
     /**
